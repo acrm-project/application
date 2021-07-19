@@ -32,3 +32,9 @@ export class ApplicationEntity {
   @Column({ type: 'bool', nullable: false })
   closed: boolean
 }
+
+/*
+  IDbApplication interface for public using
+*/
+
+export interface IDbApplication extends ApplicationEntity {}

@@ -5,7 +5,7 @@ import { Repository } from 'typeorm'
 import { ApplicationEntity } from '../entities/application.entity'
 
 import { IApplication } from '../interfaces/application.interface'
-import { Status } from 'src/types/status.enum'
+import { Status } from 'src/types/common/status.enum'
 
 @Injectable()
 export class ApplicationService {
@@ -19,5 +19,9 @@ export class ApplicationService {
       closed: false,
     })
     return this.applicationRepository.save(applicationDbInstance)
+  }
+
+  public async getApplicationById(id: number) {
+    return this.applicationRepository.findOne(id)
   }
 }

@@ -6,6 +6,9 @@ import { ApplicationService } from './services/application.service'
 import { CreateApplicationDto } from './dto/create-application.dto'
 import { AddApplicationToExistingClientDto } from './dto/add-application-to-existing-client.dto'
 
+import { IFindApplicationByIdResponse } from './interfaces/find-application-by-id-response.interface'
+import { Errors } from './types/common/errors.enum'
+
 @Controller()
 export class ApplicationController {
   constructor(private readonly applicationService: ApplicationService) {}
@@ -38,6 +41,24 @@ export class ApplicationController {
 
   @MessagePattern('application_find_by_id')
   async findApplicationById(id: number) {
-    console.log(id)
+    let findApplicationByIdResponse: IFindApplicationByIdResponse
+
+    const applicationDbResponse = await this.applicationService.getApplicationById(id)
+
+    if (!applicationDbResponse) {
+      findApplicationByIdResponse = {
+        status: HttpStatus.NOT_FOUND,
+        error: Errors.NO_APPLICATION_BY_ID,
+      }
+
+      return findApplicationByIdResponse
+    }
+
+    findApplicationByIdResponse = {
+      application: applicationDbResponse,
+      status: HttpStatus.OK,
+    }
+
+    return findApplicationByIdResponse
   }
 }
