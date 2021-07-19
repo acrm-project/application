@@ -1,5 +1,8 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
+import { IssuesType } from 'src/types/issues.type'
+import { VehicleType } from 'src/types/vehicle.type'
+
 @Entity('applications')
 export class ApplicationEntity {
   @PrimaryGeneratedColumn()
@@ -8,11 +11,11 @@ export class ApplicationEntity {
   @Column({ nullable: false, type: 'int' })
   clientId: number
 
-  @Column({ type: 'json' })
-  vehicle: any
+  @Column({ type: 'json', nullable: true })
+  vehicle: VehicleType
 
-  @Column({ type: 'json' })
-  issues: any
+  @Column({ type: 'json', nullable: true })
+  issues: IssuesType
 
   @Column({ type: 'varchar' })
   status: string
@@ -20,12 +23,12 @@ export class ApplicationEntity {
   @CreateDateColumn()
   createdAt: string
 
-  @Column()
+  @Column({ nullable: true })
   startedAt: string
 
-  @Column()
+  @Column({ nullable: true })
   closedAt: string
 
-  @Column()
-  closed: string
+  @Column({ type: 'bool', nullable: false })
+  closed: boolean
 }

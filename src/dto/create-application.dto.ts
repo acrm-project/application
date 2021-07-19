@@ -1,6 +1,6 @@
-import { ApplicationFromScratchType } from 'src/types/application.type'
+import { IApplication } from 'src/interfaces/application.interface'
 
 export class CreateApplicationDto {
   readonly clientId: number
-  readonly application: ApplicationFromScratchType
+  readonly application: IApplication
 }

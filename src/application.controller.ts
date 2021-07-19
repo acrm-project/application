@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common'
+import { Controller, HttpStatus } from '@nestjs/common'
 import { MessagePattern } from '@nestjs/microservices'
 
 import { ApplicationService } from './services/application.service'
@@ -12,12 +12,28 @@ export class ApplicationController {
 
   @MessagePattern('application_create')
   async createApplication(createApplicationDto: CreateApplicationDto) {
-    console.log(createApplicationDto)
+    const { application, clientId } = createApplicationDto
+
+    const applicationDbResponse = await this.applicationService.createApplication(clientId, application)
+
+    return {
+      application: applicationDbResponse,
+      status: HttpStatus.CREATED,
+      error: null,
+    }
   }
 
   @MessagePattern('application_add_to_existing_client')
-  async addApplicationToExistingClient(application: AddApplicationToExistingClientDto) {
-    console.log(application)
+  async addApplicationToExistingClient(addToExistingClientDto: AddApplicationToExistingClientDto) {
+    const { clientId, application } = addToExistingClientDto
+
+    const applicationDbResponse = await this.applicationService.createApplication(clientId, application)
+
+    return {
+      application: applicationDbResponse,
+      status: HttpStatus.CREATED,
+      error: null,
+    }
   }
 
   @MessagePattern('application_find_by_id')
